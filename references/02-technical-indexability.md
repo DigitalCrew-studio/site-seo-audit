@@ -114,3 +114,49 @@ For migrations:
 - Canonicals updated to new URLs.
 - Sitemap contains only new canonical URLs.
 - Old high-value URLs are monitored for `404` and traffic loss.
+
+## Crawl hygiene
+
+Also check:
+
+- internal links to `404` pages;
+- internal links to redirected URLs;
+- redirect chains and loops;
+- `5xx` URLs in a crawl sample;
+- soft `404` pages returning `200`;
+- custom 404 page returns actual `404` status;
+- deleted pages use `404` or `410` depending on intent;
+- historical domains/subdomains are handled intentionally.
+
+Report links to redirected URLs as lower priority than broken or blocked URLs, but still useful to clean because they slow crawling and create avoidable redirect hops.
+
+## Sitemap details for multilingual and large sites
+
+For multilingual or large sites:
+
+- use a sitemap index when separate sitemaps are useful;
+- separate by locale, content type, or section where it improves maintainability;
+- include only final canonical `200` URLs;
+- include `hreflang` alternates in HTML or sitemap, not necessarily both;
+- include `x-default` where a default/global page exists;
+- ensure alternate URLs return `200`, are indexable, and do not redirect unexpectedly.
+
+Caveat:
+
+- Treat `lastmod` as useful only when it reflects meaningful page changes.
+- Treat `priority` and `changefreq` as optional/secondary metadata; do not overstate their value for Google.
+
+## URL hygiene
+
+Check URL patterns for:
+
+- repeated slashes;
+- inconsistent trailing slash policy;
+- mixed uppercase/lowercase;
+- underscores used as word separators;
+- unsafe or unencoded characters;
+- excessive length and unreadable slugs;
+- parameter duplicates;
+- canonical mismatch with preferred URL format.
+
+Prefer lowercase, readable, hyphen-separated slugs unless the platform or language strategy intentionally requires another pattern.

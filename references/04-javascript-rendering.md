@@ -77,3 +77,32 @@ For pure SPAs:
 
 - Consider SSR, SSG, dynamic rendering alternatives, or pre-rendering for public SEO pages.
 - Verify rendered HTML with a crawler capable of JavaScript rendering.
+
+## SEO-critical metadata rendering
+
+Do not check only visible content. Compare raw HTML and rendered DOM for:
+
+- `<title>`;
+- meta description;
+- canonical;
+- robots meta;
+- hreflang alternates;
+- Open Graph tags;
+- Twitter/X Card tags;
+- JSON-LD;
+- H1;
+- primary content;
+- internal links.
+
+If these appear only after client-side hydration, report a rendering risk for SEO-critical templates. For SSR/SSG-capable frameworks, recommend server-rendering route-specific metadata and primary content.
+
+## Evidence collection
+
+Use two evidence columns when possible:
+
+```md
+- Raw HTML evidence: <curl/view-source snippet>
+- Rendered DOM evidence: <browser/devtools/crawler snippet>
+```
+
+If a crawler cannot render JavaScript, state that the JS-rendered state was not verified.

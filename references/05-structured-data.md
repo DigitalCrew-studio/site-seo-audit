@@ -63,3 +63,20 @@ Examples:
 - Recommendation: Remove hidden FAQ entries or make the same FAQ visible to users.
 - Verification: Re-run Rich Results Test and inspect rendered page.
 ```
+
+## Page-type matrix
+
+For detailed page-type recommendations, read `references/13-page-type-schema-matrix.md`.
+
+Quick routing:
+
+- Homepage: `Organization`, `WebSite`, optionally `WebPage`.
+- Service page: `Service`, `WebPage`, `BreadcrumbList`.
+- Blog/news: `Article` or `BlogPosting`, `BreadcrumbList`.
+- Product page: `Product`, `Offer`, optionally real `Review` / `AggregateRating`.
+- Category/listing: `CollectionPage` or `ItemList`; use `AggregateOffer` only when valid.
+- FAQ: `FAQPage` only when the Q&A is visible and eligible.
+
+## Eligibility warning
+
+Do not recommend fake or placeholder structured data. If the page does not visibly contain or reliably source reviews, ratings, authors, prices, offers, or availability, do not add those fields.

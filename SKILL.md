@@ -1,6 +1,6 @@
 ---
 name: seo-auditing
-description: Conducts evidence-based SEO audits for public websites and web applications. Use when the user asks to check SEO, indexability, robots.txt, sitemap.xml, canonical URLs, metadata, HTML semantics, JavaScript rendering, structured data, Core Web Vitals, mobile-first readiness, regional search engines, or to produce an SEO audit report/roadmap.
+description: Conducts evidence-based SEO audits for public websites and web applications. Use when the user asks to check SEO, indexability, robots.txt, sitemap.xml, canonical URLs, metadata, HTML semantics, JavaScript rendering, structured data, Core Web Vitals, mobile-first readiness, regional search engines, migration risks, social previews, private/account-page indexation, or to produce an SEO audit report/roadmap.
 ---
 
 # SEO Auditing
@@ -13,12 +13,17 @@ Every finding must use this structure:
 
 ```md
 ### [P0/P1/P2/P3] <issue title>
+- Area: <technical/indexability/content/rendering/schema/performance/regional/etc.>
+- Affected URL(s) or template(s): <URL list, pattern, or template name>
 - Observation: <what was verified>
 - Evidence: <URL, command output, HTML snippet, tool result, screenshot, or stated limitation>
 - Risk: <why it matters for crawl/index/ranking/UX>
 - Recommendation: <specific fix>
+- Owner: <SEO/Frontend/Backend/DevOps/Content/Analytics/Unknown>
 - Verification: <how to confirm the fix>
 ```
+
+If a previous third-party SEO audit is provided, do not copy its conclusions blindly. Extract reusable audit patterns, validate them against current search-engine documentation, keep site-specific findings separate, and merge only checks that are evidence-based and repeatable.
 
 Never guarantee rankings, traffic growth, rich results, or indexing.
 
@@ -32,6 +37,7 @@ Use this skill for:
 - Debugging indexing, crawlability, canonical, sitemap, robots, metadata, JavaScript rendering, schema, performance, or mobile issues.
 - Creating a prioritized SEO roadmap.
 - Regional SEO checks for Google, Yandex, Bing/Yahoo, Naver, Baidu, or Seznam.
+- Reviewing a previous SEO audit and converting useful patterns into a reusable audit skill or checklist.
 
 Do not use this skill for black-hat SEO, spam, cloaking, hidden text, doorway pages, fake reviews, traffic/ranking guarantees, or bulk low-value programmatic pages.
 
@@ -64,6 +70,11 @@ Read only the reference files needed for the task. Keep the main workflow lean.
 | Scoring, priorities, report template, roadmap | `references/08-reporting-scoring.md` |
 | CLI commands and repeatable checks | `references/09-cli-checks.md` |
 | Source list for updating facts | `references/10-source-corpus.md` |
+| Extracting reusable checks from a third-party audit | `references/11-third-party-audit-patterns.md` |
+| Legacy domains, old URLs, post-migration redirects | `references/12-migration-legacy-url-audit.md` |
+| Schema by page type and eligibility rules | `references/13-page-type-schema-matrix.md` |
+| Open Graph, Twitter/X Cards, link previews | `references/14-social-preview-audit.md` |
+| Login, account, checkout, admin and private page indexation | `references/15-private-account-indexing.md` |
 | Why this skill is split this way | `references/00-skill-authoring-notes.md` |
 
 ## Audit modes
@@ -99,7 +110,18 @@ Use when URLs, domain, CMS/framework, protocol, or site structure changed.
 2. Verify 301 redirect mapping.
 3. Check canonical, sitemap, robots, hreflang, internal links, status codes.
 4. Identify lost pages, redirect chains, soft 404s, indexability regressions.
-5. Produce a migration risk report and post-launch monitoring checklist.
+5. Check old domains/subdomains that historically received traffic.
+6. Produce a migration risk report and post-launch monitoring checklist.
+
+### Previous-audit distillation
+
+Use when the user provides a previous SEO audit, agency report, or technical SEO task.
+
+1. Separate reusable audit patterns from site-specific findings.
+2. Keep useful checks, expected states, validation methods, and report formatting.
+3. Remove unsupported claims, outdated advice, fake examples, and one-off domain assumptions.
+4. Map retained checks to existing references or create a small focused reference file.
+5. Update the main `SKILL.md` only when the workflow or reference map changes.
 
 ## Sampling rules
 
@@ -111,6 +133,8 @@ Do not audit only the homepage unless the site is a one-page landing. Include re
 - Contact/about/legal pages if relevant.
 - Filtered or paginated URLs for catalog/ecommerce.
 - Locale/region variants if present.
+- Login/account/private pages if public URLs exist.
+- Old domains/subdomains if a migration or previous version is mentioned.
 
 If a sample is insufficient, say so and recommend a crawl.
 
@@ -145,3 +169,6 @@ For a full report, use `references/08-reporting-scoring.md`.
 - If structured data was not validated, say “needs validation,” not “valid.”
 - If a recommendation is engine-specific, name the engine.
 - Prefer official search engine documentation over SEO blogs.
+- Do not recommend fake reviews, fake ratings, fake authors, hidden FAQ, or structured data that does not match visible page content.
+- Do not state that `changefreq` or `priority` are major Google ranking factors; treat them as secondary sitemap metadata.
+- Do not apply blanket `nofollow` to every external link; classify links as editorial, sponsored, user-generated, or untrusted.

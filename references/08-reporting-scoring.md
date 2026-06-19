@@ -132,3 +132,32 @@ Each task should be implementable:
 - Improve regional/local signals.
 - Create ongoing monitoring dashboard.
 - Re-crawl and compare before/after results.
+
+## Expanded finding template
+
+Use this for implementation-ready findings:
+
+```md
+### [P0/P1/P2/P3] <issue title>
+- Area: <technical/indexability/content/rendering/schema/performance/regional/etc.>
+- Affected URL(s) or template(s): <URL list, pattern, or template name>
+- Observation: <what was verified>
+- Evidence: <URL, command output, HTML snippet, tool result, screenshot, or stated limitation>
+- Current state: <how the site behaves now>
+- Expected state: <specific desired behavior>
+- Risk: <why it matters>
+- Recommendation: <specific fix>
+- Owner: <SEO/Frontend/Backend/DevOps/Content/Analytics/Unknown>
+- Verification: <how to confirm the fix>
+```
+
+## Owner guidance
+
+Use practical ownership:
+
+- `SEO`: prioritization, metadata requirements, sitemap strategy, canonical policy, content mapping.
+- `Frontend`: HTML, metadata rendering, links, schema output, OG/Twitter tags, client-side rendering.
+- `Backend`: route status, redirects, API-driven content, auth responses, sitemap generation.
+- `DevOps`: host redirects, HTTPS, CDN, robots served by infrastructure, server errors, old subdomains.
+- `Content`: page copy, headings, descriptions, FAQ, image alt, author/profile data.
+- `Analytics`: webmaster tools, events, dashboards, monitoring.

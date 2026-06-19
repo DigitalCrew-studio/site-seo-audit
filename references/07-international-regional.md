@@ -95,3 +95,28 @@ Check:
 - Czech-language content quality if targeting Czechia.
 - Sitemap and robots behavior.
 - Local search expectations and regional directories where relevant.
+
+## Hreflang cluster audit
+
+For each localized template, verify:
+
+- every locale version has a self-referencing hreflang;
+- every locale version references all other valid alternates;
+- alternates are reciprocal;
+- `x-default` exists where a default/global URL is appropriate;
+- alternate URLs return `200`;
+- alternate URLs are indexable;
+- alternate URLs do not redirect unexpectedly to another language;
+- canonical does not point across languages unless intentionally consolidating duplicates;
+- sitemap and HTML hreflang do not conflict.
+
+## Localized internal linking
+
+When a user is on a localized version, default internal links should usually remain in the same locale.
+
+Report as an issue when:
+
+- `/ru` pages link to English equivalents by default;
+- language switcher redirects users back to the current locale;
+- footer/menu/breadcrumb links mix locales unintentionally;
+- localized pages canonicalize to another language while also declaring hreflang alternates.

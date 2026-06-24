@@ -1,86 +1,85 @@
-# Third-Party Audit Pattern Extraction Reference
+# 11 — Third-Party Audit Patterns
 
-## Purpose
+## Goal
 
-Use this reference when the user provides an external SEO audit, agency report, technical SEO task, or remediation document and asks what should be reused in this skill.
+Convert previous agency audits and automated audit reports into reusable, validated audit procedures.
 
-Do not treat the external audit as automatically correct. Treat it as a source of patterns to review.
+## Use cases
 
-## Extraction workflow
+- User uploads an SEO agency audit.
+- User pastes a SEOptimer/Semrush/Ahrefs/Screaming Frog/Sitebulb/PageSpeed report.
+- User asks what to add to this skill based on another audit.
+- User asks to compare two audits.
 
-1. Identify all audit sections and checks.
-2. Mark each item as one of:
-   - `Reusable check`: should become part of the generic SEO audit workflow.
-   - `Site-specific finding`: useful only for the audited site.
-   - `Unsupported claim`: needs current official-source verification.
-   - `Outdated / risky advice`: should be rejected or rewritten.
-   - `Implementation detail`: useful as an example, but not a universal rule.
-3. Convert reusable checks into evidence-based audit steps.
-4. Add each check to the most specific reference file.
-5. Keep `SKILL.md` short; update it only when workflow or reference routing changes.
+## Process
 
-## Useful patterns to extract
+1. Extract all reported checks.
+2. Classify each check:
+   - technical SEO;
+   - content/search intent;
+   - rendering;
+   - structured data;
+   - performance/mobile;
+   - backlinks/off-page;
+   - social/entity/local;
+   - analytics/marketing;
+   - experimental/GEO;
+   - tool-specific marketing upsell.
+3. Separate site-specific findings from reusable patterns.
+4. Verify whether each recommendation matches official documentation or accepted industry practice.
+5. Keep useful checks as reference procedures.
+6. Reject or downgrade unsupported, outdated, or overgeneralized checks.
 
-Prefer extracting:
+## Automated reports are hypotheses
 
-- Issue format: priority, status, affected URLs, fix, verification.
-- Sitemap requirements: canonical URLs, `200` status, valid XML, useful `lastmod`, sitemap index for large or multilingual sites.
-- Crawl hygiene checks: `404`, `5xx`, redirect chains, links to redirected URLs, soft `404`.
-- Multilingual checks: `hreflang`, self-reference, reciprocal alternates, `x-default`, locale-consistent internal links.
-- Raw HTML vs rendered DOM checks for metadata, canonical, hreflang, JSON-LD, H1, main content, and links.
-- URL hygiene checks: lowercase, hyphen separators, repeated slashes, parameters, canonical trailing slash policy.
-- Structured-data matrix by page type.
-- Social preview checks: Open Graph and Twitter/X Cards.
-- CMS rules for image `alt` generation.
-- External link classification.
-- Private/account/auth page indexation checks.
-- Old domain, old subdomain, and legacy URL handling.
+Treat automated checks as signals, not final truth.
 
-## What to reject or rewrite
+Example:
 
-Reject or rewrite these patterns:
+- “Title too short” → inspect title quality, not just length.
+- “No Facebook Pixel” → marketing readiness, not SEO issue.
+- “No AMP” → optional for specific media/news cases, not universal.
+- “No llms.txt” → optional experimental GEO signal, not Google ranking issue.
+- “Inline styles” → low-priority maintainability/performance signal unless causing measurable impact.
 
-- Claims that structured data directly guarantees ranking growth.
-- Claims that rich results, indexing, or Discover traffic are guaranteed.
-- Fake `Review`, `AggregateRating`, author, price, or availability examples that are not backed by visible page content or source data.
-- Blanket `rel="nofollow"` for all external links.
-- Treating sitemap `priority` and `changefreq` as critical Google ranking signals.
-- Hard universal limits such as “URL over 115 characters is an error.” Treat these as warnings unless a source or business rule requires otherwise.
-- Search-engine-specific rules applied globally without naming the engine.
+## Useful patterns from agency-style audits
 
-## Conversion template
+Keep:
 
-Use this template when converting an agency-audit item into a skill reference:
+- priority/status/fix/validation format;
+- sitemap-index and hreflang validation;
+- raw HTML vs rendered DOM comparison;
+- crawl hygiene: 404, 301, 5xx, soft 404;
+- old domains/subdomains migration checks;
+- URL hygiene;
+- page-type schema matrix;
+- OG/Twitter preview validation;
+- CMS alt fallback rules;
+- localized internal link checks;
+- private/account indexing checks.
 
-```md
-## <Check name>
+## Useful patterns from automated SEO-score reports
 
-When to run:
-- <site type, page type, migration, region, framework>
+Keep:
 
-Check:
-- <repeatable verification step>
+- category scorecards;
+- SERP snippet preview;
+- keyword consistency / intent fit;
+- backlink summary when data exists;
+- top pages by backlinks;
+- top anchors;
+- on-page link counts;
+- social/entity presence;
+- local SEO/NAP checks;
+- performance resource inventory;
+- technology/DNS/email trust appendix;
+- analytics/marketing readiness.
 
-Expected state:
-- <specific desired behavior>
+## Reject or downgrade
 
-Report as:
-- Priority: <P0/P1/P2/P3 guidance>
-- Evidence: <URL / snippet / tool output>
-- Owner: <SEO/Frontend/Backend/DevOps/Content/Analytics>
-- Verification: <how to re-check>
-
-Notes:
-- <engine-specific caveats or limitations>
-```
-
-## Skill update rule
-
-Do not add every extracted check to `SKILL.md`. Use `SKILL.md` as a router. Put details in references.
-
-Update `SKILL.md` only when:
-
-- a new audit mode is needed;
-- a new reference file is added;
-- the finding template changes;
-- a critical anti-hallucination rule is needed.
+- “Install every social platform” — recommend only relevant maintained profiles.
+- “Facebook Pixel required” — marketing readiness only.
+- “AMP required” — optional for select use cases.
+- “nofollow all outbound links” — classify links by sponsored/ugc/untrusted/editorial.
+- “priority/changefreq are critical Google ranking fields” — inaccurate.
+- “Schema directly boosts rankings” — overstatement; use for understanding/rich-result eligibility.

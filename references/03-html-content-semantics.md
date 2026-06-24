@@ -1,137 +1,113 @@
-# HTML, Metadata, Content, and Internal Links Reference
+# 03 — HTML, Content and Semantics
 
-## Contents
+## Goal
 
-- Titles and descriptions
-- Headings and landmarks
-- Semantic HTML
-- Content quality and search intent
-- Internal linking
-- Images and media
-- Local trust signals
+Ensure search engines and users can understand each page's topic, hierarchy, and content.
 
-## Titles and descriptions
-
-Each important page should have:
-
-- Unique `<title>`.
-- Unique meta description.
-- Title aligned with page intent.
-- No template-wide duplicates like “Home” or only brand name.
-- No keyword stuffing.
-
-Quick checks:
-
-- Title length is not the main goal; clarity and uniqueness matter more.
-- Description does not directly rank the page, but affects snippet quality and click expectations.
-- Title and H1 can differ, but should not contradict each other.
-
-## Headings and landmarks
-
-Expected structure:
-
-```html
-<header>...</header>
-<nav>...</nav>
-<main>
-  <h1>Primary page topic</h1>
-  <section>
-    <h2>Section topic</h2>
-    <article>
-      <h3>Item topic</h3>
-    </article>
-  </section>
-</main>
-<footer>...</footer>
-```
+## Title tag
 
 Check:
 
-- One clear primary H1 per page/template.
-- H2/H3 hierarchy is logical.
-- Headings are not used only for visual styling.
-- Important text is real text, not only image text.
+- exists;
+- unique for important pages;
+- accurately describes the page;
+- includes primary topic naturally;
+- not keyword-stuffed;
+- not too generic;
+- not duplicated across templates;
+- brand appended consistently when useful.
+
+Do not treat character counts as strict rules. Use length as a snippet-risk signal, not a ranking formula.
+
+## Meta description
+
+Check:
+
+- exists for important pages;
+- unique and page-specific;
+- summarizes value proposition;
+- aligns with visible content;
+- avoids keyword stuffing;
+- avoids duplicate boilerplate.
+
+Search engines may rewrite snippets. Still, good descriptions improve control and CTR potential.
+
+## SERP preview
+
+For priority pages, include:
+
+- Title;
+- URL;
+- Description;
+- Risk notes: truncation, generic copy, mismatch, weak CTA, missing intent.
+
+## Headings
+
+Check:
+
+- one clear H1 for the main page topic;
+- logical H2/H3 structure;
+- headings describe sections;
+- headings are not used only for styling;
+- important sections are not hidden behind images or animations;
+- mobile version keeps important headings/content.
 
 ## Semantic HTML
 
-Prefer:
+Prefer meaningful elements:
 
-- `<a href="...">` for navigation.
-- `<button>` for actions.
-- `<main>`, `<nav>`, `<section>`, `<article>`, `<footer>` where meaningful.
-- Tables for tabular data.
-- Lists for lists.
+- `header`;
+- `nav`;
+- `main`;
+- `section`;
+- `article`;
+- `aside`;
+- `footer`;
+- real `a href` links;
+- real `button` for actions.
 
-Avoid:
+Flag div-only structures only when they reduce accessibility, crawlability, or maintainability.
 
-- Clickable `<div>` used as links.
-- Important navigation only in JavaScript handlers.
-- Large text sections hidden from mobile users.
-
-## Content quality and search intent
-
-For every important page, verify:
-
-- The page answers a specific user intent.
-- The main service/product/topic is obvious above the fold.
-- The page contains enough useful detail to be independently valuable.
-- Claims are supported: examples, process, pricing, constraints, FAQ, cases, proof.
-- Similar pages are not thin duplicates.
-
-Commercial service page baseline:
-
-- What is offered.
-- Who it is for.
-- Problems solved.
-- Deliverables.
-- Process.
-- Timeline or factors affecting timeline.
-- Pricing or price logic if possible.
-- Proof/cases.
-- FAQ.
-- CTA/contact path.
-
-## Internal linking
+## Visible content
 
 Check:
 
-- Important pages are reachable by crawlable links.
-- Main navigation and footer contain key pages.
-- Related pages link to each other.
-- Anchor text is descriptive.
-- Orphan pages are identified.
-- Broken internal links are fixed.
+- page explains what it offers;
+- first screen communicates page purpose;
+- text matches search intent;
+- thin pages are identified;
+- duplicated boilerplate is separated from unique content;
+- important facts are in text/HTML, not only images/video/canvas;
+- calls to action are clear but not replacing useful content.
 
-Bad:
+## Image alt
 
-```html
-<div onclick="go('/services/web-apps')">Web apps</div>
-```
+Rules:
 
-Good:
+- informative images need descriptive alt text;
+- decorative images should use `alt=""`;
+- product images should include product name and primary descriptor;
+- icons may use empty alt if accompanied by visible text;
+- avoid keyword stuffing;
+- CMS fallback alt templates are acceptable but should not overwrite manual alt.
 
-```html
-<a href="/services/web-apps">Web application development</a>
-```
+Suggested CMS fallback:
 
-## Images and media
+- one image in a section: `{section heading}`;
+- multiple images: `{section heading} - image {number}`;
+- product image: `{product name} {product type}`.
+
+## Internal links
 
 Check:
 
-- Images have useful `alt` when informative.
-- Decorative images use empty `alt=""` where appropriate.
-- Important text is not embedded only inside images.
-- Image dimensions are specified to reduce layout shift.
-- Large images are compressed and responsive.
-- Lazy loading is not applied to critical LCP media.
+- important pages are linked from navigation, footer, content, or hubs;
+- anchors are descriptive;
+- links use crawlable `<a href>`;
+- localized pages link to same-locale pages when appropriate;
+- internal links point to canonical final URLs;
+- no excessive links to noindex or redirected URLs.
 
-## Local trust signals
+## Content quality notes
 
-For local or regional businesses, check:
-
-- Contact page.
-- Address/region if relevant.
-- Phone/email/messengers.
-- Legal/business entity data where appropriate.
-- LocalBusiness/Organization structured data where appropriate.
-- Consistent name/address/phone across site and business profiles.
+Do not reduce content analysis to keyword density. Evaluate intent match, completeness, specificity, freshness, trust, and usefulness.

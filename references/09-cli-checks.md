@@ -1,102 +1,80 @@
-# CLI Checks Reference
-
-## Contents
-
-- Status and headers
-- robots.txt
-- sitemap.xml
-- Raw HTML
-- Canonical/title/meta/H1 extraction
-- Rendered HTML
-- Lighthouse
-- Notes
+# 09 — CLI Checks
 
 ## Status and headers
 
 ```bash
-curl -I -L https://example.com/
+curl -I https://example.com/
+curl -IL http://example.com/
+curl -I https://example.com/robots.txt
+curl -I https://example.com/sitemap.xml
 ```
 
-Check final status, redirect chain, canonical host, `X-Robots-Tag`, cache headers.
+Check:
 
-Check domain variants:
+- status code;
+- final URL;
+- redirects;
+- canonical host/protocol;
+- `x-robots-tag`;
+- content type;
+- cache headers;
+- compression.
+
+## Fetch raw HTML
 
 ```bash
-for url in \
-  http://example.com \
-  http://www.example.com \
-  https://example.com \
-  https://www.example.com; do
-  echo "\n### $url"
-  curl -I -L --max-redirs 5 "$url" | sed -n '1,20p'
-done
+curl -L https://example.com/ -o page.html
+grep -i "<title\|description\|canonical\|robots\|hreflang\|application/ld+json" page.html
 ```
 
-## robots.txt
+## Check robots.txt
 
 ```bash
-curl -s https://example.com/robots.txt
+curl -L https://example.com/robots.txt
 ```
 
-Look for `Disallow`, `Allow`, `Sitemap`, engine-specific blocks.
+Inspect:
 
-## sitemap.xml
+- disallow rules;
+- sitemap declarations;
+- accidental full-site block.
+
+## Check sitemap
 
 ```bash
-curl -s https://example.com/sitemap.xml | head -80
+curl -L https://example.com/sitemap.xml -o sitemap.xml
+xmllint --noout sitemap.xml
 ```
-
-If sitemap index exists, inspect child sitemaps.
 
 Extract URLs:
 
 ```bash
-curl -s https://example.com/sitemap.xml | grep -oE '<loc>[^<]+' | sed 's/<loc>//'
+grep -oE '<loc>[^<]+' sitemap.xml | sed 's/<loc>//'
 ```
 
-## Raw HTML
+## Batch status check
 
 ```bash
-curl -sL https://example.com/ -o page.html
+while read -r url; do
+  code=$(curl -L -s -o /dev/null -w "%{http_code}" "$url")
+  final=$(curl -L -s -o /dev/null -w "%{url_effective}" "$url")
+  echo "$code $final $url"
+done < urls.txt
 ```
 
-Inspect key tags:
+## Lighthouse CLI
 
 ```bash
-grep -iE '<title|name="description"|rel="canonical"|name="robots"|application/ld\+json|<h1' page.html
+npx lighthouse https://example.com/ --preset=desktop --output=json --output-path=lh-desktop.json
+npx lighthouse https://example.com/ --output=json --output-path=lh-mobile.json
 ```
 
-## Rendered HTML
-
-If browser automation is available, use it to save rendered DOM. If not, state that JS rendering was not fully checked.
-
-Example with Playwright if installed:
+## Simple link extraction
 
 ```bash
-node - <<'NODE'
-const { chromium } = require('playwright');
-(async () => {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto('https://example.com/', { waitUntil: 'networkidle' });
-  console.log(await page.content());
-  await browser.close();
-})();
-NODE
+grep -oE 'href="[^"]+"' page.html | sed 's/href="//;s/"//'
 ```
-
-## Lighthouse
-
-If Lighthouse is available:
-
-```bash
-lighthouse https://example.com/ --output html --output-path lighthouse.html --chrome-flags="--headless"
-```
-
-Do not treat Lighthouse SEO score as a full SEO audit. It covers only a subset of checks.
 
 ## Notes
 
-- Use commands as evidence, but do not expose huge outputs in the report.
-- Summarize relevant lines and attach snippets.
-- If tools are unavailable, ask for exports or state the limitation.
+CLI checks are supporting evidence. Use browser rendering, crawlers, and official webmaster tools when deeper verification is needed.

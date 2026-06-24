@@ -1,162 +1,124 @@
-# Technical SEO and Indexability Reference
+# 02 — Technical Indexability
 
-## Contents
+## Goal
 
-- Status codes and redirects
-- HTTPS and host canonicalization
-- robots.txt
-- sitemap.xml
-- Indexability
-- Canonical and duplicates
-- Facets, pagination, parameters
-- Migration checks
+Verify whether search engines can crawl, render, index, and canonicalize the right URLs.
 
-## Status codes and redirects
+## Indexability checklist
 
-Expected behavior:
+For each important URL:
 
-- Important indexable pages return `200`.
-- Permanent moves use `301` or `308`.
-- Temporary moves use `302` or `307` only when genuinely temporary.
-- Deleted pages return `404` or `410`.
-- Server errors `5xx` are urgent when affecting important URLs.
-
-Check:
-
-- Redirect chains longer than one hop.
-- Redirect loops.
-- Mixed HTTP/HTTPS behavior.
-- Inconsistent `www` and non-`www` behavior.
-- Soft 404 pages returning `200`.
-
-## HTTPS and canonical host
-
-Pick one canonical host:
-
-- `https://example.com`, or
-- `https://www.example.com`.
-
-All variants should redirect to the canonical host.
+- returns 200;
+- final URL is HTTPS;
+- final URL uses preferred host (`www` or non-`www`);
+- not blocked by robots.txt;
+- no `<meta name="robots" content="noindex">`;
+- no `X-Robots-Tag: noindex` header;
+- canonical points to the preferred indexable URL;
+- URL is included in sitemap if it should be indexed;
+- not redirected through unnecessary chains;
+- not a duplicate parameterized URL;
+- main content appears in raw HTML or is reliably renderable.
 
 ## robots.txt
 
-Check `https://example.com/robots.txt`.
+Check:
 
-Look for:
+- file exists at `/robots.txt`;
+- returns 200 or expected status;
+- does not block important sections;
+- blocks crawl traps where appropriate;
+- references sitemap URL(s);
+- does not use unsupported directives as critical controls;
+- does not rely on robots.txt to prevent indexing of already-linked sensitive URLs.
 
-- Accidental `Disallow: /` on production.
-- Important CSS/JS/images blocked when needed for rendering.
-- Sitemap directive.
-- Engine-specific directives such as Yandex `Crawl-delay` where relevant.
-- Staging rules accidentally deployed to production.
+Use robots.txt for crawl control, not as the only privacy/indexing control.
 
-Important distinction:
-
-- `robots.txt` controls crawling.
-- `noindex` controls indexing.
-- If a URL is blocked by `robots.txt`, crawlers may not see its `noindex` meta tag.
-
-## sitemap.xml
+## Sitemap
 
 Check:
 
-- Sitemap URL exists and returns `200`.
-- XML is valid.
-- Only canonical, indexable `200` URLs are included.
-- No redirects, `404`, `noindex`, blocked, parameter junk, or duplicate URLs.
-- `lastmod` is accurate enough to be useful.
-- Sitemap index is used for large sites.
-- Image/video/news extensions only when relevant.
+- sitemap exists and returns 200;
+- XML is valid;
+- only canonical, indexable, 200 URLs are included;
+- important public pages are included;
+- no private, login, account, admin, checkout-only, parameter, or noindex URLs are included;
+- `lastmod` reflects meaningful page updates;
+- sitemap index is used for large or multilingual sites;
+- localized alternates are present in sitemap or HTML when applicable.
 
-Sitemap is a discovery signal, not an indexing guarantee.
+Important nuance:
 
-## Indexability
+- `lastmod` is useful only when accurate.
+- `priority` and `changefreq` can be present for compatibility, but do not overstate their impact for Google.
 
-A URL is indexable only if signals align:
-
-- Status is `200`.
-- Not blocked by auth or firewall.
-- Not blocked from crawling when content must be discovered.
-- No `noindex` in meta or `X-Robots-Tag`.
-- Canonical points to itself or to the intended representative URL.
-- Page has meaningful, accessible content.
-
-## Canonical and duplicates
+## Canonical
 
 Check:
 
-- Self-canonical on canonical pages.
-- Canonical absolute URL or correct relative behavior.
-- Canonical not pointing all pages to homepage.
-- Canonical not pointing to redirected/404/noindex URLs.
-- Canonical consistency with sitemap and internal links.
-- Parameter/UTM/filter pages handled intentionally.
+- canonical is absolute or consistently resolvable;
+- canonical URL returns 200;
+- canonical is not blocked/noindexed;
+- canonical does not point to a redirect;
+- canonical matches preferred host/protocol/trailing-slash policy;
+- paginated, filtered, and parameter URLs use canonical intentionally;
+- localized pages do not canonicalize to a different language unless intentionally excluded.
 
-Canonical is a strong signal, not an absolute command.
+## Status codes
 
-## Facets, pagination, parameters
+Classify:
 
-For ecommerce/catalog sites:
-
-- Define which filters are indexable landing pages.
-- Block or canonicalize crawl traps.
-- Avoid infinite combinations in sitemap.
-- Keep internal linking to valuable categories.
-- Ensure paginated content can be crawled where needed.
-
-## Migration checks
-
-For migrations:
-
-- Every important old URL maps to a relevant new URL.
-- Redirects are direct and permanent.
-- Internal links updated to new URLs.
-- Canonicals updated to new URLs.
-- Sitemap contains only new canonical URLs.
-- Old high-value URLs are monitored for `404` and traffic loss.
+- `200` — valid indexable page, if allowed.
+- `301` — permanent redirect; should point to relevant replacement.
+- `302/307/308` — verify whether temporary/permanent behavior is intended.
+- `404` — page not found; acceptable for deleted pages.
+- `410` — permanently gone; useful for intentionally removed pages.
+- `5xx` — server failure; high priority if recurring or on important pages.
 
 ## Crawl hygiene
 
-Also check:
+Check:
 
-- internal links to `404` pages;
+- internal links to 404/410;
+- internal links to 5xx;
 - internal links to redirected URLs;
-- redirect chains and loops;
-- `5xx` URLs in a crawl sample;
-- soft `404` pages returning `200`;
-- custom 404 page returns actual `404` status;
-- deleted pages use `404` or `410` depending on intent;
-- historical domains/subdomains are handled intentionally.
+- redirect chains;
+- redirect loops;
+- soft 404 pages;
+- orphan pages;
+- canonicalized pages still heavily linked internally;
+- sitemap contains non-indexable URLs.
 
-Report links to redirected URLs as lower priority than broken or blocked URLs, but still useful to clean because they slow crawling and create avoidable redirect hops.
+## HTTPS and host normalization
 
-## Sitemap details for multilingual and large sites
+Check:
 
-For multilingual or large sites:
-
-- use a sitemap index when separate sitemaps are useful;
-- separate by locale, content type, or section where it improves maintainability;
-- include only final canonical `200` URLs;
-- include `hreflang` alternates in HTML or sitemap, not necessarily both;
-- include `x-default` where a default/global page exists;
-- ensure alternate URLs return `200`, are indexable, and do not redirect unexpectedly.
-
-Caveat:
-
-- Treat `lastmod` as useful only when it reflects meaningful page changes.
-- Treat `priority` and `changefreq` as optional/secondary metadata; do not overstate their value for Google.
+- HTTP redirects to HTTPS;
+- one preferred host is enforced;
+- old hosts/subdomains redirect intentionally;
+- redirects preserve path when a relevant equivalent exists;
+- all internal links point directly to final canonical URLs.
 
 ## URL hygiene
 
-Check URL patterns for:
+Flag as warnings unless causing crawl/index issues:
 
-- repeated slashes;
-- inconsistent trailing slash policy;
 - mixed uppercase/lowercase;
-- underscores used as word separators;
+- repeated slashes;
+- excessive length;
 - unsafe or unencoded characters;
-- excessive length and unreadable slugs;
-- parameter duplicates;
-- canonical mismatch with preferred URL format.
+- underscores instead of hyphens;
+- inconsistent trailing slashes;
+- parameter URLs exposed as indexable;
+- duplicate content under multiple URL variants.
 
-Prefer lowercase, readable, hyphen-separated slugs unless the platform or language strategy intentionally requires another pattern.
+## Validation methods
+
+Use:
+
+- curl status and headers;
+- rendered browser inspection;
+- crawl export;
+- sitemap validator;
+- Search Console URL inspection when available;
+- Bing/Yandex webmaster diagnostics when relevant.

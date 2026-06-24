@@ -1,122 +1,62 @@
-# International and Regional SEO Reference
+# 07 — International and Regional SEO
 
-## Contents
+## Goal
 
-- International basics
-- hreflang
-- Google/global
-- Yandex/RU-CIS
-- Bing/Yahoo/IndexNow
-- Naver/Korea
-- Baidu/China
-- Seznam/Czech Republic
+Validate localized versions and region-specific search engine requirements.
 
-## International basics
+## hreflang checks
 
-Check:
+For each localized cluster:
 
-- Target countries and languages.
-- URL structure: subdirectory, subdomain, ccTLD.
-- Locale-specific content, currency, contacts, legal data.
-- Avoid automatic redirects that prevent users/crawlers from accessing other locales.
-- Keep each language/region page independently useful.
+- every localized URL has self-referencing hreflang;
+- every localized URL references all valid alternates;
+- clusters are reciprocal;
+- `x-default` exists when there is a default/global selector or fallback page;
+- hreflang URLs return 200;
+- hreflang URLs are indexable;
+- hreflang URLs do not redirect unexpectedly to another language;
+- canonical is language-specific, unless a page is intentionally excluded;
+- sitemap or HTML implementation is consistent.
 
-## hreflang
-
-Use when multiple localized equivalents exist.
+## Localized internal links
 
 Check:
 
-- Correct language-region codes.
-- Self-referencing hreflang.
-- Return links between alternates.
-- Canonical does not contradict hreflang.
-- Sitemap hreflang and HTML hreflang are consistent if both used.
-- `x-default` where appropriate.
+- RU pages link primarily to RU URLs;
+- EN pages link primarily to EN URLs;
+- language switcher points to equivalent pages where available;
+- missing translations are handled intentionally;
+- no redirect loop caused by locale cookies or browser language.
 
-## Google/global
+## Regional engines
 
-Prioritize:
+Consider target market:
 
-- Crawlability/indexability.
-- Helpful content aligned to intent.
-- Mobile-first parity.
-- Structured data policy compliance.
-- Page experience and Core Web Vitals.
-- Search Console monitoring.
+- Google — global baseline, Search Console, CWV, structured data.
+- Yandex — RU/CIS, Yandex Webmaster, Yandex Metrica, region/business profiles, turbo/schema validation where relevant.
+- Bing/Yahoo — Bing Webmaster Tools, IndexNow, backlinks.
+- Baidu — China-specific indexing, ICP/hosting/language considerations where relevant.
+- Naver — Korea-specific search ecosystem and webmaster tools.
+- Seznam — Czech market visibility and webmaster guidance.
 
-## Yandex/RU-CIS
+## Regional business signals
 
-Check:
+For local/regional businesses:
 
-- Yandex Webmaster access if available.
-- Yandex-specific indexing/excluded pages reports.
-- `robots.txt` and Sitemap in Yandex tools.
-- `Crawl-delay` only if intentionally needed.
-- Regionality and business/contact signals for local commercial sites.
-- Yandex Metrica goals if analytics is part of scope.
+- language-specific contact info;
+- service area;
+- local profiles;
+- consistent NAP if public;
+- translated metadata;
+- localized content, not machine-translated boilerplate only.
 
-## Bing/Yahoo/IndexNow
+## Reporting
 
-Check:
+For hreflang issues, include:
 
-- Bing Webmaster Tools access if available.
-- Sitemap submitted to Bing.
-- IndexNow support if site has frequent updates.
-- URL submission for important updated URLs.
-- Bing-specific crawl/index reports.
-
-## Naver/Korea
-
-Check:
-
-- Naver Search Advisor setup.
-- Site verification.
-- robots and sitemap submission.
-- Korean-language content quality if targeting Korea.
-- Regional SERP expectations: Naver often has its own content ecosystem patterns.
-
-## Baidu/China
-
-Check:
-
-- Baidu Search Resource Platform where available.
-- Simplified Chinese localization if targeting mainland China.
-- China hosting/CDN/accessibility considerations.
-- Page speed from mainland China.
-- Avoid reliance on blocked third-party resources.
-- Verify with current Baidu resources or regional specialists when possible.
-
-## Seznam/Czech Republic
-
-Check:
-
-- SeznamBot crawling/indexing guidance.
-- Czech-language content quality if targeting Czechia.
-- Sitemap and robots behavior.
-- Local search expectations and regional directories where relevant.
-
-## Hreflang cluster audit
-
-For each localized template, verify:
-
-- every locale version has a self-referencing hreflang;
-- every locale version references all other valid alternates;
-- alternates are reciprocal;
-- `x-default` exists where a default/global URL is appropriate;
-- alternate URLs return `200`;
-- alternate URLs are indexable;
-- alternate URLs do not redirect unexpectedly to another language;
-- canonical does not point across languages unless intentionally consolidating duplicates;
-- sitemap and HTML hreflang do not conflict.
-
-## Localized internal linking
-
-When a user is on a localized version, default internal links should usually remain in the same locale.
-
-Report as an issue when:
-
-- `/ru` pages link to English equivalents by default;
-- language switcher redirects users back to the current locale;
-- footer/menu/breadcrumb links mix locales unintentionally;
-- localized pages canonicalize to another language while also declaring hreflang alternates.
+- source URL;
+- declared alternate;
+- expected alternate;
+- status/indexability of alternate;
+- reciprocity status;
+- fix guidance.

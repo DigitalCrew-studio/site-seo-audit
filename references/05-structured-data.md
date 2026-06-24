@@ -1,82 +1,67 @@
-# Structured Data Reference
+# 05 — Structured Data
 
-## Contents
+## Goal
 
-- General rules
-- Common schema types
-- Validation
-- Finding format for schema issues
+Use structured data to clarify entities and page type without misrepresenting content.
 
-## General rules
+## Core checks
 
-Structured data helps search engines understand page entities. It does not guarantee rich results.
+- JSON-LD exists where relevant;
+- schema matches page type;
+- required/recommended properties are present;
+- URLs are canonical;
+- images return 200 and are crawlable;
+- dates use valid formats;
+- organization/person details are consistent;
+- schema validates in relevant validators;
+- schema content matches visible page content.
 
-Rules:
+## Common useful types
 
-- Mark up only content visible to users or clearly represented on the page.
-- Use the most specific relevant schema type.
-- Keep data accurate and updated.
-- Avoid fake ratings, fake reviews, hidden FAQ, or misleading business data.
-- Validate JSON-LD syntax and eligibility where possible.
+- `Organization`;
+- `WebSite`;
+- `WebPage`;
+- `BreadcrumbList`;
+- `Article`;
+- `BlogPosting`;
+- `Product`;
+- `Offer`;
+- `AggregateOffer`;
+- `Review` / `AggregateRating` only when real and visible;
+- `LocalBusiness` / `ProfessionalService` when accurate;
+- `FAQPage` only when eligible and visible.
 
-## Common schema types
+## Anti-spam rules
 
-For commercial/corporate sites:
+Do not recommend:
 
-- `Organization`
-- `LocalBusiness` or narrower subtype if appropriate
-- `WebSite`
-- `BreadcrumbList`
-- `FAQPage` when visible FAQ exists and engine policies allow it
-- `Article` or `BlogPosting` for editorial pages
-- `Product` for product pages
-- `Service` where appropriate, but check engine support expectations
-- `Review`/`AggregateRating` only with genuine visible reviews and policy compliance
+- fake reviews;
+- fake ratings;
+- fake prices;
+- fake availability;
+- fake authors;
+- fake addresses;
+- schema for invisible content;
+- over-marking every paragraph with irrelevant schema.
 
-## Placement
+## Validation methods
 
-JSON-LD is usually placed in:
+Use:
 
-```html
-<script type="application/ld+json">...</script>
-```
+- Google Rich Results Test;
+- Schema Markup Validator;
+- Yandex structured data validator for Yandex-oriented projects;
+- manual JSON-LD inspection;
+- crawl extraction.
 
-Per-page structured data should match the page, not the whole site globally.
+## Reporting
 
-## Validation
+For each schema finding, include:
 
-Use available validators:
-
-- Google Rich Results Test for Google-specific rich result eligibility.
-- Schema Markup Validator for general Schema.org validation.
-- Search Console enhancements reports after indexing.
-
-## Finding format for schema issues
-
-Examples:
-
-```md
-### [P2] FAQPage markup does not match visible content
-- Observation: JSON-LD contains FAQ entries that are not visible on the page.
-- Evidence: <URL + JSON-LD snippet + visible page check>
-- Risk: Search engines may ignore the markup or treat it as misleading.
-- Recommendation: Remove hidden FAQ entries or make the same FAQ visible to users.
-- Verification: Re-run Rich Results Test and inspect rendered page.
-```
-
-## Page-type matrix
-
-For detailed page-type recommendations, read `references/13-page-type-schema-matrix.md`.
-
-Quick routing:
-
-- Homepage: `Organization`, `WebSite`, optionally `WebPage`.
-- Service page: `Service`, `WebPage`, `BreadcrumbList`.
-- Blog/news: `Article` or `BlogPosting`, `BreadcrumbList`.
-- Product page: `Product`, `Offer`, optionally real `Review` / `AggregateRating`.
-- Category/listing: `CollectionPage` or `ItemList`; use `AggregateOffer` only when valid.
-- FAQ: `FAQPage` only when the Q&A is visible and eligible.
-
-## Eligibility warning
-
-Do not recommend fake or placeholder structured data. If the page does not visibly contain or reliably source reviews, ratings, authors, prices, offers, or availability, do not add those fields.
+- page type;
+- detected schema;
+- expected schema;
+- invalid/missing properties;
+- visible content source;
+- validator result if available;
+- confidence.

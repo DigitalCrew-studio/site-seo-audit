@@ -1,79 +1,79 @@
-# Performance and Mobile Reference
+# 06 — Performance and Mobile
 
-## Contents
+## Goal
 
-- Core Web Vitals
-- LCP checks
-- INP checks
-- CLS checks
-- Mobile-first checks
-- Images, fonts, caching
+Assess page experience, speed, and mobile usability without overstating indirect SEO effects.
 
 ## Core Web Vitals
 
-Use field data when available. Lab data is useful for debugging but not identical to real-user data.
+Check field data when available:
 
-Primary metrics:
+- LCP — loading experience;
+- INP — responsiveness;
+- CLS — visual stability.
 
-- LCP: loading performance of the main content.
-- INP: interaction responsiveness.
-- CLS: visual stability.
+If only lab data is available, label it as lab data.
 
-Do not invent exact values without measurement.
+## PageSpeed / Lighthouse
 
-## LCP checks
+Collect:
 
-Check:
+- performance score;
+- FCP;
+- LCP;
+- TBT;
+- Speed Index;
+- CLS;
+- opportunities;
+- diagnostics.
 
-- What is the LCP element.
-- Whether hero image/text is server-rendered.
-- Image size and format.
-- Preload/fetch priority for critical image where appropriate.
-- Server response time.
-- Render-blocking CSS/JS.
-- Client-side hydration delaying content.
+Separate mobile and desktop.
 
-## INP checks
-
-Check:
-
-- Heavy JavaScript on initial load.
-- Large bundles.
-- Expensive event handlers.
-- Third-party scripts.
-- Long tasks.
-- Unnecessary client-side rendering.
-
-## CLS checks
+## Mobile usability
 
 Check:
 
-- Missing image/video dimensions.
-- Late-loading fonts.
-- Ad/banner/widget insertion.
-- Skeletons that change size.
-- Cookie banners and popups shifting layout.
+- viewport meta tag;
+- no horizontal scroll;
+- readable font sizes;
+- tap targets;
+- menu usability;
+- content parity between mobile and desktop;
+- intrusive popups;
+- above-the-fold clarity;
+- important links visible/crawlable.
 
-## Mobile-first checks
+## Common performance causes
 
-Google primarily uses the mobile version for indexing. Verify:
+- heavy JavaScript;
+- unused JavaScript;
+- render-blocking CSS/JS;
+- large images;
+- unoptimized hero media;
+- slow server response/TTFB;
+- redirect overhead;
+- third-party scripts;
+- excessive requests;
+- missing compression;
+- layout shifts from images/fonts/ads.
 
-- Important content and links are present on mobile.
-- Mobile does not hide SEO-critical content available on desktop.
-- Viewport meta tag is present.
-- Tap targets are usable.
-- No horizontal scroll.
-- Popups do not block content.
-- Structured data and metadata are same or equivalent on mobile.
+## Usability extras
 
-## Images, fonts, caching
+Check as P2/P3 depending on severity:
 
-Check:
+- favicon exists and is crawlable;
+- no Flash/deprecated tech;
+- iframes do not contain critical SEO content;
+- email addresses are not exposed if privacy/spam risk matters;
+- JS errors are not breaking user flows.
 
-- Responsive images: `srcset`/`sizes` or framework equivalent.
-- Modern formats: WebP/AVIF where suitable.
-- Compression appropriate to visual quality.
-- Lazy loading below the fold.
-- Font loading avoids invisible text and layout shifts.
-- Static assets have caching headers.
-- Critical CSS and JS are not excessive.
+## Reporting
+
+Always include:
+
+- measured metric;
+- source/tool;
+- user impact;
+- likely technical cause;
+- recommended owner;
+- validation method.

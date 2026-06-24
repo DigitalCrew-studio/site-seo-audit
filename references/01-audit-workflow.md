@@ -1,99 +1,139 @@
-# SEO Audit Workflow
+# 01 — Audit Workflow
 
-## Contents
+## Goal
 
-- Scope setup
-- URL sampling
-- Crawl/index checks
-- Template review
-- Content and intent review
-- Performance/mobile review
-- Regional review
-- Report assembly
+Run audits in a repeatable sequence so findings are evidence-based and prioritized.
 
-## Scope setup
+## Phase 1 — Scope and assumptions
 
-Record:
+Collect:
 
-- Domain, protocol, canonical host: `https`, `www` vs non-`www`.
-- Target regions, languages, and search engines.
-- Site type and business goal.
-- Important templates.
-- Known constraints: no private tool access, staging-only access, blocked crawling, authentication.
+- site URL;
+- target market/search engines;
+- site type;
+- priority pages;
+- target keywords if available;
+- access/export availability;
+- whether the user wants technical, content, performance, off-page, local, GEO, or full audit.
 
-State limitations in the final report.
+If no crawl/export is available, perform a URL-level audit and clearly mark sitewide conclusions as sampled.
 
-## URL sampling
+## Phase 2 — URL discovery
 
-Use 5–20 URLs for a manual audit. For larger sites, request or run a crawl.
+Sources to use:
 
-Minimum sample:
+- homepage navigation;
+- footer links;
+- sitemap.xml and sitemap indexes;
+- robots.txt sitemap declarations;
+- search console exports;
+- crawl exports;
+- backlinks/top pages exports;
+- user-provided priority pages;
+- old URL lists for migrations.
 
-- `/`
-- `/robots.txt`
-- `/sitemap.xml`
-- One service/product/category page.
-- One detail page: article/product/case.
-- One contact/about page.
-- One old URL if migration is involved.
-- One paginated or filtered URL if catalog/ecommerce.
-- One alternate-language URL if international.
+Classify URLs:
 
-## Audit sequence
+- homepage;
+- service/landing pages;
+- category/listing pages;
+- product pages;
+- blog/articles;
+- legal pages;
+- account/auth/private pages;
+- localized versions;
+- old/legacy URLs;
+- assets and files.
 
-1. Resolve domain variants:
-   - `http://example.com`
-   - `http://www.example.com`
-   - `https://example.com`
-   - `https://www.example.com`
-2. Check status codes and redirect chains.
-3. Check `robots.txt` and `sitemap.xml`.
-4. Check indexability signals:
-   - HTTP status.
-   - `robots.txt` accessibility.
-   - `meta robots`.
-   - `X-Robots-Tag`.
-   - Canonical.
-   - Password/auth blocks.
-5. Review metadata and HTML semantics.
-6. Review internal links and crawl paths.
-7. Compare raw HTML and rendered HTML for JS-heavy sites.
-8. Validate structured data if present.
-9. Review images/media and performance signals.
-10. Review mobile-first risks.
-11. Apply regional checks.
-12. Build findings and roadmap.
+## Phase 3 — Technical gate checks
 
-## Template review
+Before content analysis, verify:
 
-For each representative template, record:
+- HTTP/HTTPS and canonical host;
+- status code;
+- robots.txt;
+- meta robots / X-Robots-Tag;
+- canonical;
+- redirects;
+- sitemap inclusion;
+- raw HTML availability;
+- core content availability.
 
-| Template | URL | Status | Indexable | Canonical | Title | H1 | Notes |
-|---|---|---:|---|---|---|---|---|
-| Homepage | `/` | 200 | yes/no | self/other | ok/issue | ok/issue | ... |
+If a page is not indexable, do not over-invest in content/meta recommendations until indexability is resolved.
 
-## Evidence standards
+## Phase 4 — Page-level analysis
 
-Use the strongest available evidence:
+For each sampled priority URL, inspect:
 
-1. Search Console/Yandex/Bing data.
-2. Server logs or crawl export.
-3. Direct HTTP headers and HTML.
-4. Rendered DOM / browser inspection.
-5. Lighthouse/PageSpeed/WebPageTest.
-6. Manual observation.
+- title;
+- meta description;
+- canonical;
+- H1;
+- heading hierarchy;
+- visible content;
+- internal links;
+- images and alt;
+- schema;
+- social preview tags;
+- raw HTML vs rendered DOM;
+- mobile usability;
+- performance signals.
 
-Do not convert assumptions into findings. Write assumptions as “Hypothesis” or “Needs verification.”
+## Phase 5 — Sitewide analysis
 
-## Completion criteria
+When crawl data exists, analyze:
 
-The audit is complete when it has:
+- duplicate titles/descriptions/H1;
+- non-200 URLs;
+- internal 404/5xx;
+- links to redirects;
+- redirect chains;
+- duplicate canonicals;
+- orphan pages;
+- sitemap vs crawl mismatch;
+- hreflang clusters;
+- URL hygiene;
+- internal link depth.
 
-- Scope and limitations.
-- Template coverage.
-- Technical/indexability review.
-- Content/semantics review.
-- Performance/mobile review.
-- Regional review if relevant.
-- Prioritized findings.
-- Verification plan.
+## Phase 6 — Advanced layers
+
+Apply only when data is available or requested:
+
+- keyword consistency and intent fit;
+- off-page/backlinks;
+- local/entity/social presence;
+- GEO/LLM readiness;
+- performance resource inventory;
+- technical environment/trust;
+- analytics/marketing readiness.
+
+## Phase 7 — Reporting
+
+Report only actionable findings. For every finding include:
+
+- priority;
+- affected URL(s);
+- evidence;
+- expected state;
+- recommended fix;
+- validation method;
+- owner;
+- confidence.
+
+## Sampling rules
+
+For small sites: inspect all indexable pages.
+
+For medium/large sites, sample:
+
+- homepage;
+- 3-5 main service/category pages;
+- 3-5 product/article pages;
+- 1-2 legal pages;
+- 1 localized cluster per language;
+- 1 auth/private flow if relevant;
+- top pages by organic traffic/backlinks if available.
+
+## Output discipline
+
+Do not bury critical issues. Put top 5 priorities before detailed checklists.
